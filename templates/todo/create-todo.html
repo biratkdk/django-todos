@@ -1,0 +1,50 @@
+{% extends '_partials/base.html' %}
+
+{% block title %}
+Create Todo | Django Todos
+{% endblock %}
+
+{% block content %}
+    <div class="page-header">
+      <p class="section-kicker">New Task</p>
+      <h3 class="ui header">Create Todo</h3>
+    </div>
+
+    {% include '_partials/messages.html' %}
+
+    <form class="ui form app-form-card" method="POST" action={% url 'create-todo'  %}>
+        {% csrf_token %}
+        <div class="field{% if form.title.errors %} error{% endif %}">
+          <label for="{{ form.title.id_for_label }}">Title</label>
+          {{ form.title }}
+        </div>
+
+        <div class="field{% if form.description.errors %} error{% endif %}">
+          <label for="{{ form.description.id_for_label }}">Description</label>
+          {{ form.description }}
+        </div>
+
+        <div class="two fields">
+          <div class="field{% if form.priority.errors %} error{% endif %}">
+            <label for="{{ form.priority.id_for_label }}">Priority</label>
+            {{ form.priority }}
+          </div>
+          <div class="field{% if form.due_date.errors %} error{% endif %}">
+            <label for="{{ form.due_date.id_for_label }}">Due date</label>
+            {{ form.due_date }}
+          </div>
+        </div>
+
+        <div class="field">
+          <div class="ui checkbox app-checkbox-row">
+            {{ form.is_completed }}
+            <label for="{{ form.is_completed.id_for_label }}">Mark as completed</label>
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <input type="submit" class="ui button primary" value="Submit">
+          <a href={% url 'home' %} class="ui button">Cancel</a>
+        </div>
+    </form>
+{% endblock content %}

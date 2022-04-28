@@ -1,0 +1,198 @@
+{% extends '_partials/base.html' %}
+
+{% block title %}
+Dashboard | Django Todos
+{% endblock %}
+
+{% block content %}
+    <section class="dashboard-hero">
+      <div>
+        <p class="section-kicker">Personal Task Dashboard</p>
+        <h1 class="ui header">My Todos</h1>
+        <p class="section-copy">
+          Track priorities, due dates, search your tasks, and keep work moving.
+        </p>
+      </div>
+      <a href={% url 'create-todo' %} class="ui primary button">Create Todo</a>
+    </section>
+
+    {% include '_partials/messages.html' %}
+
+    <form class="ui form app-toolbar" method="get" action={% url 'home' %}>
+      <div class="fields app-toolbar-fields">
+        <div class="ten wide field">
+          <label for="todo-search">Search todos</label>
+          <input
+            id="todo-search"
+            type="text"
+            name="q"
+            value="{{ search_query }}"
+            placeholder="Search by title or description"
+          />
+        </div>
+        <div class="three wide field">
+          <label for="todo-filter">Quick filter</label>
+          <select id="todo-filter" name="filter">
+            <option value="all" {% if active_filter == 'all' %}selected{% endif %}>All todos</option>
+            <option value="incomplete" {% if active_filter == 'incomplete' %}selected{% endif %}>Remaining</option>
+            <option value="complete" {% if active_filter == 'complete' %}selected{% endif %}>Completed</option>
+            <option value="overdue" {% if active_filter == 'overdue' %}selected{% endif %}>Overdue</option>
+            <option value="due-soon" {% if active_filter == 'due-soon' %}selected{% endif %}>Due soon</option>
+            <option value="high-priority" {% if active_filter == 'high-priority' %}selected{% endif %}>High priority</option>
+          </select>
+        </div>
+        <div class="three wide field app-toolbar-actions">
+          <label>&nbsp;</label>
+          <div class="app-toolbar-buttons">
+            <button class="ui primary button" type="submit">Apply</button>
+            <a href={% url 'home' %} class="ui button">Reset</a>
+          </div>
+        </div>
+      </div>
+    </form>
+
+    <div class="app-filter-chips">
+      <a href="?filter=all{% if search_query %}&q={{ search_query|urlencode }}{% endif %}" class="ui label {% if active_filter == 'all' %}blue{% endif %}">
+        All {{ all_count }}
+      </a>
+      <a href="?filter=incomplete{% if search_query %}&q={{ search_query|urlencode }}{% endif %}" class="ui label {% if active_filter == 'incomplete' %}blue{% endif %}">
+        Remaining {{ incomplete_count }}
+      </a>
+      <a href="?filter=complete{% if search_query %}&q={{ search_query|urlencode }}{% endif %}" class="ui label {% if active_filter == 'complete' %}blue{% endif %}">
+        Completed {{ completed_count }}
+      </a>
+      <a href="?filter=overdue{% if search_query %}&q={{ search_query|urlencode }}{% endif %}" class="ui label {% if active_filter == 'overdue' %}red{% endif %}">
+        Overdue {{ overdue_count }}
+      </a>
+      <a href="?filter=due-soon{% if search_query %}&q={{ search_query|urlencode }}{% endif %}" class="ui label {% if active_filter == 'due-soon' %}teal{% endif %}">
+        Due Soon {{ due_soon_count }}
+      </a>
+      <a href="?filter=high-priority{% if search_query %}&q={{ search_query|urlencode }}{% endif %}" class="ui label {% if active_filter == 'high-priority' %}orange{% endif %}">
+        High Priority {{ high_priority_count }}
+      </a>
+    </div>
+
+    <div class="ui four stackable cards stats-grid">
+      <div class="card">
+        <div class="content">
+          <div class="header">{{ all_count }}</div>
+          <div class="meta">Total Tasks</div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="content">
+          <div class="header">{{ incomplete_count }}</div>
+          <div class="meta">Remaining</div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="content">
+          <div class="header">{{ completed_count }}</div>
+          <div class="meta">Completed</div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="content">
+          <div class="header">{{ overdue_count }}</div>
+          <div class="meta">Overdue</div>
+        </div>
+      </div>
+    </div>
+
+  {% if todos %}
+  <table class="ui table app-table">
+
+    <thead>
+
+        <tr>
+            <th>Title</th>
+            <th>Priority</th>
+            <th>Due Date</th>
+            <th>Status</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+
+    <tbody>
+
+        {% for todo in todos %}
+
+        <tr>
+
+            <td>
+              <div class="todo-cell-title">{{todo.title}}</div>
+              <div class="todo-cell-copy">{{todo.description|truncatechars:90}}</div>
+            </td>
+            <td>
+              <span class="app-badge priority-{{ todo.priority }}">{{ todo.get_priority_display }}</span>
+            </td>
+            <td>
+              {% if todo.due_date %}
+                <span{% if todo.is_overdue %} class="app-text-danger"{% endif %}>{{ todo.due_date }}</span>
+              {% else %}
+                <span class="app-muted">No deadline</span>
+              {% endif %}
+            </td>
+
+
+
+            <td>
+                {% if todo.is_completed %}
+                <span class="app-badge status-complete">Completed</span>
+                {% if todo.completed_at %}
+                <div class="todo-cell-copy">Finished {{ todo.completed_at|date:"M j, Y g:i a" }}</div>
+                {% endif %}
+                {% elif todo.is_overdue %}
+                <span class="app-badge status-overdue">Overdue</span>
+                <div class="todo-cell-copy">Action needed</div>
+                {% else %}
+                <span class="app-badge status-open">Open</span>
+                {% if todo.due_date %}
+                <div class="todo-cell-copy">Due {{ todo.due_date|date:"M j, Y" }}</div>
+                {% endif %}
+              {% endif %}
+            </td>
+
+            <td>
+
+                <a href={% url 'todo' todo.pk  %} class="ui button">
+                    <i class="eye icon"></i>
+                </a>
+
+
+                <a href={% url 'todo-edit' todo.pk  %} class="ui button">
+                    <i class="pencil icon"></i>
+                </a>
+            </td>
+
+        </tr>
+
+
+        {% endfor %}
+
+
+
+    </tbody>
+
+    <tfoot>
+        <tr>
+          <th><a href="?filter=all{% if search_query %}&q={{ search_query|urlencode }}{% endif %}">All {{all_count}}</a></th>
+          <th><a href="?filter=high-priority{% if search_query %}&q={{ search_query|urlencode }}{% endif %}">{{high_priority_count}} High Priority</a></th>
+          <th><a href="?filter=due-soon{% if search_query %}&q={{ search_query|urlencode }}{% endif %}">{{due_soon_count}} Due Soon</a></th>
+          <th></th>
+        </tr>
+      </tfoot>
+  </table>
+
+
+  {% else %}
+
+  <div class="ui message app-empty-state">
+    <div class="header">
+        No matching todos
+    </div>
+    <p>{% if search_query or active_filter != 'all' %}Try a different search or reset the filters.{% else %}You can create your first todo now <a href={% url 'create-todo' %}>Add new</a>.{% endif %}</p>
+  </div>
+
+  {% endif %}
+{% endblock content %}

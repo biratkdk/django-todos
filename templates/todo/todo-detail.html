@@ -1,0 +1,65 @@
+{% extends '_partials/base.html' %}
+
+
+{% block title %}
+Todo: {{todo.title}} | Django Todos
+{% endblock %}
+
+{% block content %}
+    <div class="page-header">
+      <p class="section-kicker">Task Detail</p>
+      <h1 class="ui header">Todo Detail</h1>
+    </div>
+
+    {% include '_partials/messages.html' %}
+
+    <div class="ui fluid card app-detail-card">
+        <div class="content">
+          <div class="header">{{todo.title}}</div>
+          <div class="meta">Created {{todo.created_at|date:"M j, Y g:i a"}}</div>
+          <div class="app-detail-metadata">
+            <span class="app-badge priority-{{ todo.priority }}">{{ todo.get_priority_display }}</span>
+            {% if todo.is_completed %}
+            <span class="app-badge status-complete">Completed</span>
+            {% elif todo.is_overdue %}
+            <span class="app-badge status-overdue">Overdue</span>
+            {% else %}
+            <span class="app-badge status-open">Open</span>
+            {% endif %}
+          </div>
+          <div class="description">
+            <p>{{todo.description}}</p>
+          </div>
+        </div>
+        <div class="extra content">
+          <div class="app-detail-grid">
+            <div>
+              <span class="app-muted-label">Due date</span>
+              <p>
+                {% if todo.due_date %}
+                {{todo.due_date|date:"M j, Y"}}
+                {% else %}
+                No deadline set
+                {% endif %}
+              </p>
+            </div>
+            <div>
+              <span class="app-muted-label">Completed at</span>
+              <p>
+                {% if todo.completed_at %}
+                {{todo.completed_at|date:"M j, Y g:i a"}}
+                {% else %}
+                Not completed yet
+                {% endif %}
+              </p>
+            </div>
+            <div>
+              <span class="app-muted-label">Last updated</span>
+              <p>{{todo.updated_at|date:"M j, Y g:i a"}}</p>
+            </div>
+          </div>
+         <a href={% url 'todo-edit' todo.id %} class="ui button primary">Edit</a>
+         <a href={% url 'todo-delete' todo.id %} class="ui button red">Delete this todo</a>
+        </div>
+    </div>
+{% endblock content %}

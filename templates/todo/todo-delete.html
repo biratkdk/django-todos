@@ -1,0 +1,22 @@
+{% extends '_partials/base.html' %}
+{% block title %}
+Delete Todo | Django Todos
+{% endblock %}
+
+
+{% block content %}
+    <div class="page-header">
+      <p class="section-kicker">Delete Task</p>
+      <h1 class="ui header">Delete Todo?</h1>
+    </div>
+
+    <form method="POST"  action={% url 'todo-delete' todo.id %} class="ui form app-form-card">
+        {% csrf_token %}
+        <p>Are you sure you want to delete <strong>{{ todo.title }}</strong>?</p>
+
+        <div class="form-actions">
+          <input type="submit" class="ui button negative" value="Yes, delete it">
+          <a href={% url 'todo' todo.id %} class="ui button">Cancel</a>
+        </div>
+    </form>
+{% endblock content %}

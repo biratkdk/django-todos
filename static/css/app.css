@@ -1,0 +1,248 @@
+body.app-shell {
+    background:
+        radial-gradient(circle at top left, rgba(33, 133, 208, 0.12), transparent 35%),
+        linear-gradient(180deg, #f6f9fc 0%, #eef3f8 100%);
+    color: #1b1c1d;
+}
+
+.app-navbar {
+    background: rgba(255, 255, 255, 0.92) !important;
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(34, 36, 38, 0.08) !important;
+    box-shadow: 0 8px 30px rgba(15, 23, 42, 0.06);
+}
+
+.app-brand {
+    display: flex !important;
+    align-items: center;
+    gap: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+}
+
+.app-brand .logo {
+    width: 2.2rem !important;
+    height: 2.2rem !important;
+    object-fit: contain;
+}
+
+.app-content {
+    padding-top: 2.5rem;
+    padding-bottom: 4rem;
+}
+
+.dashboard-hero,
+.page-header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 1.75rem;
+}
+
+.section-kicker {
+    margin: 0 0 0.4rem;
+    color: #2185d0;
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+}
+
+.section-copy {
+    max-width: 42rem;
+    margin: 0;
+    color: #5f6c7b;
+}
+
+.stats-grid .card,
+.app-form-card,
+.app-detail-card,
+.app-table,
+.app-toolbar {
+    border-radius: 1rem !important;
+    box-shadow: 0 18px 45px rgba(15, 23, 42, 0.08) !important;
+}
+
+.stats-grid .card .header {
+    font-size: 2rem !important;
+}
+
+.app-table {
+    overflow: hidden;
+    background: #fff;
+}
+
+.app-form-card {
+    background: #fff;
+    padding: 1.5rem !important;
+}
+
+.app-form-card .field label {
+    font-weight: 700;
+}
+
+.app-detail-card {
+    max-width: 44rem;
+}
+
+.app-toolbar {
+    background: rgba(255, 255, 255, 0.96);
+    padding: 1.25rem !important;
+    margin-bottom: 1rem;
+}
+
+.app-toolbar-fields {
+    margin-bottom: 0 !important;
+}
+
+.app-toolbar-actions {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+}
+
+.app-toolbar-buttons {
+    display: flex;
+    gap: 0.75rem;
+}
+
+.app-filter-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.65rem;
+    margin: 0 0 1.5rem;
+}
+
+.app-badge {
+    display: inline-flex;
+    align-items: center;
+    border-radius: 999px;
+    padding: 0.35rem 0.75rem;
+    font-size: 0.82rem;
+    font-weight: 700;
+    letter-spacing: 0.01em;
+}
+
+.priority-low {
+    background: rgba(91, 189, 114, 0.12);
+    color: #1b7f3b;
+}
+
+.priority-medium {
+    background: rgba(33, 133, 208, 0.12);
+    color: #155d92;
+}
+
+.priority-high {
+    background: rgba(242, 113, 28, 0.16);
+    color: #b24f08;
+}
+
+.status-open {
+    background: rgba(33, 133, 208, 0.12);
+    color: #155d92;
+}
+
+.status-complete {
+    background: rgba(33, 186, 69, 0.14);
+    color: #177a33;
+}
+
+.status-overdue {
+    background: rgba(219, 40, 40, 0.14);
+    color: #a11d1d;
+}
+
+.todo-cell-title {
+    font-weight: 700;
+}
+
+.todo-cell-copy,
+.app-muted {
+    color: #5f6c7b;
+}
+
+.todo-cell-copy {
+    margin-top: 0.35rem;
+    font-size: 0.92rem;
+}
+
+.app-text-danger {
+    color: #a11d1d;
+    font-weight: 700;
+}
+
+.app-detail-metadata {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin: 1rem 0 1.25rem;
+}
+
+.app-detail-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
+    gap: 1rem;
+    margin-bottom: 1.25rem;
+}
+
+.app-muted-label {
+    display: inline-block;
+    margin-bottom: 0.35rem;
+    color: #5f6c7b;
+    font-size: 0.82rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+}
+
+.app-checkbox-row {
+    display: flex !important;
+    align-items: center;
+    gap: 0.65rem;
+}
+
+.app-table td {
+    vertical-align: top !important;
+}
+
+.form-actions {
+    display: flex;
+    gap: 0.75rem;
+    align-items: center;
+    margin-top: 1rem;
+}
+
+.auth-page {
+    min-height: calc(100vh - 12rem);
+}
+
+.auth-card {
+    background: rgba(255, 255, 255, 0.96);
+    border-radius: 1.25rem;
+    padding: 2rem;
+    box-shadow: 0 24px 60px rgba(15, 23, 42, 0.12);
+}
+
+.auth-card .ui.header img.image {
+    width: 2.75rem;
+    height: 2.75rem;
+}
+
+.app-empty-state {
+    border-radius: 1rem !important;
+}
+
+@media (max-width: 767px) {
+    .dashboard-hero,
+    .page-header,
+    .app-toolbar-buttons {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .app-filter-chips {
+        gap: 0.5rem;
+    }
+}

@@ -1,0 +1,15 @@
+.env
+.env.*
+!.env-sample
+.coverage
+.coverage.*
+coverage.xml
+htmlcov/
+env/
+venv/
+.venv/
+__pycache__/
+*.py[cod]
+db.sqlite3
+*.sqlite3
+staticfiles/

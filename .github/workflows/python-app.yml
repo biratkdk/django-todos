@@ -1,0 +1,59 @@
+# This workflow will install Python dependencies, run tests and lint with a single version of Python
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-python
+
+name: Python application
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+
+    services:
+      postgres:
+        image: postgres:15
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: github_actions
+
+        ports:
+          - 5433:5432
+
+        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: Set up Python 3.11.1
+      uses: actions/setup-python@v5
+      with:
+        python-version: "3.11.1"
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+
+    - name: Test with Unittest
+      env:
+        SECRET_KEY: test-secret-key
+        DEBUG: "False"
+        DATABASE_URL: postgres://postgres:postgres@127.0.0.1:5433/github_actions
+      run: |
+        coverage run manage.py test && coverage report --fail-under=81 && coverage xml
+
+    - name: Report coverage to codecov
+      uses: codecov/codecov-action@v1
+      with:
+        token: ${{ secrets.CODECOV_TOKEN }}
+        files: ./coverage.xml
+        directory: ./coverage/reports/
+        fail_ci_if_error: true
